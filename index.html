@@ -1,36 +1,42 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>테스트</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous">
+    </script>
+    <!-- <script src="app.js" type="text/javascript"></script> -->
+    <script>
+        $(document).ready(function () {
+            console.log("ready");
+            $("#search").on("click", function () {
+                alert("click");
+                $.ajax({
+                    method: "GET",
+                    url: "https://cors-anywhere.herokuapp.com/http://openapi.11st.co.kr/openapi/OpenApiService.tmall?key=d31cb5254083f025e9231e22960e7e14&apiCode=ProductSearch&keyword=xnote",
+                    data: {}
+                }).done(function (msg) {
+                    console.log("test: " + msg);
+                    $("p").append(msg);
+                });
+            })
+        })
+    </script>
 </head>
 
 <body>
     <!-- <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous">
     </script> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            $(".search").on("click", function(){
-                $.ajax({
-                    method: "GET",
-                    url: "http://openapi.11st.co.kr/openapi/OpenApiService.tmall?key=d31cb5254083f025e9231e22960e7e14&apiCode=ProductSearch&keyword=xnote",
-                    data: {}
-                }).done(function(msg){
-                    console.log("test: "+ msg);
-                    $("p").append(msg.documents[0].ProductName);
-                });
-            })
-        })
-        
-    </script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 
-    <form method="post">
+
+    <form method="post" action="process/search">
         <input type="text" name="keyword" />
-        <input type="button" class="search" value="버튼" />
+        <input type="button" id="search" value="버튼" />
     </form>
 </body>
 
