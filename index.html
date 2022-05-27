@@ -5,25 +5,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>테스트</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.js"
-        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     </script>
     <!-- <script src="app.js" type="text/javascript"></script> -->
-    <script>
+    <script type="text/javascript">
+        const key = "d31cb5254083f025e9231e22960e7e14";
+        var keyword = "인터넷 케이블 랜선";
+
         $(document).ready(function () {
             console.log("ready");
             $("#search").on("click", function () {
-                alert("click");
-                $.ajax({
-                    method: "GET",
-                    url: "https://cors-anywhere.herokuapp.com/http://openapi.11st.co.kr/openapi/OpenApiService.tmall?key=d31cb5254083f025e9231e22960e7e14&apiCode=ProductSearch&keyword=xnote",
-                    data: {}
-                }).done(function (msg) {
-                    console.log("test: " + msg);
-                    $("p").append(msg);
-                });
+                //alert("click");
+                // $.ajax({
+                //     method: "GET",
+                //     datatype: "jsonp",
+                //     url: "https://cors-anywhere.herokuapp.com/http://openapi.11st.co.kr/openapi/OpenApiService.tmall?key=d31cb5254083f025e9231e22960e7e14&apiCode=ProductSearch&keyword="+keyword,
+                //     data: {}
+                // }).done(function (msg) {
+                //     var str = msg.document["ProductSearchResponse"]["Products"]["Product"][0]["ProductName"];
+                //     $("p").append(msg);
+                //     console.log(msg);
+                // });
+let xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function () {
+            
+            if(this.readyState == 4 && this.status == 200){
+            nodeValfunc( this ); // this == xhttp 
+            }
+        }
+        xhttp.open("GET", "https://cors-anywhere.herokuapp.com/http://openapi.11st.co.kr/openapi/OpenApiService.tmall?key=d31cb5254083f025e9231e22960e7e14&apiCode=ProductSearch&keyword=xnote", true);
+        xhttp.send();
+
+        function nodeValfunc( xml ) { // ( xml ) 객체 넘겨받기
+            let num, name;
+            let txt, numtxt, xmlDoc;
+            
+            txt = numtxt = ''; // 빈 문자열로 초기화
+            
+            xmlDoc = xml.responseXML; 
+            
+            num = xmlDoc.getElementsByTagName("Product");
+            name = xmlDoc.getElementsByTagName("ProductName");
+            console.log(num.length);
+            
+            //for(i=0; i < num.length; i++){
+                txt += num[0].childNodes[0].nodeValue + "\n";
+                numtxt += name[0].childNodes[0].nodeValue + "\n";
+                console.log(txt + numtxt);
+            //}
+            //$("p").append(txt + numtxt);
+            // 실행하면 번호와 이름이 p태그에 출력된다.
+        }
             })
         })
+
+
+
+
+        
     </script>
 </head>
 
@@ -38,6 +78,7 @@
         <input type="text" name="keyword" />
         <input type="button" id="search" value="버튼" />
     </form>
+    
 </body>
 
 </html>
