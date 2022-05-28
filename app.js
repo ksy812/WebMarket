@@ -1,23 +1,29 @@
+const key = "d31cb5254083f025e9231e22960e7e14";
+var keyword = "인터넷 케이블 랜선";
 
-const   express = require("express"),
-        http = require("http"),
-        cors = require("cors"),
-        path = require("path"),
-        $ = require("jquery"), //(require("jsdom").jsdom().parentWindow),
-        request = require("request"),
-        iconv = require("iconv-lite");
+const express = require("express"),
+    http = require("http"),
+    cors = require("cors"),
+    path = require("path"),
+    jsdom = require('jsdom'),
+    //$ = require("jquery"), //(require("jsdom").jsdom().parentWindow),
+    request = require("request"),
+    iconv = require("iconv-lite");
+
+const { JSDOM } = jsdom;
+const { window } = new JSDOM();
+const { document } = (new JSDOM('home.html')).window;
+global.document = document;
+
+const $ = jQuery = require('jquery')(window);
 
 const router = express.Router();
 const app = express();
 app.set("port", process.env.PORT || 3000);
-app.use("/", router);
-
-app.use(cors());
 app.route("/ajax");
+app.use(cors());
+app.use("/", router);
 app.use("/node_modules", express.static(path.join(__dirname, "/node_modules")));
-const document = "index.html";
-const key = "d31cb5254083f025e9231e22960e7e14";
-var keyword = "인터넷 케이블 랜선";
 
 $(document).ready(function () {
     console.log("ready");
@@ -65,13 +71,14 @@ function nodeValfunc( xml ) { // ( xml ) 객체 넘겨받기
     // 실행하면 번호와 이름이 p태그에 출력된다.
 }
     })
-})  
+})
 
-router.route('/process/search').post(function(req, res) {
-	console.log('/process/search 호출됨.');
+router.route('/process/search').post(function (req, res) {
+    console.log('/process/search 호출됨.');
+
     
 });
 
-http.createServer(app).listen(app.get('port'), function(){
+http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
-  });
+});
