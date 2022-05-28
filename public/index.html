@@ -18,44 +18,19 @@
         $(document).ready(function () {
             console.log("ready");
             $("#btnSearch").on("click", function () {
-                /* $.ajax({
+                $.ajax({
                     method: "GET",
-                    datatype: "json",
+                    datatype: "xml",
                     url: url,
-                }).done(function (msg) {
-                    var str = msg.document["ProductSearchResponse"]["Products"]["Product"][0]["ProductproductName"];
-                    $("p").append(msg);
-                    console.log(msg);
-                }); */
-                let xhr = new XMLHttpRequest();
-
-                xhr.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        setResult(this); //this == xhr  ***********
+                    success: function(xml){
+                        $(xml).find("Product").each(function(){
+                            let productName = $(this).find("ProductName").text();
+                            $("#productList").append("<li>"+productName+"</li>");
+                        });
                     }
-                }
-                xhr.open("GET", url, true);
-                xhr.send();
-                function setResult(xml) { //open API xml 받음
-                    let productName, productTemp;
-                    let txtPName, txtTemp, xmlDoc;
+                });
 
-                    txtPName = txtTemp = ""; //초기화
-                    xmlDoc = JSON.parse(xhr.responseText);//xml.responseXML;
-                    console.log(xmlDoc);
-                    //const result = JSON.parse(xhr.responseText);
-                    /*
-                    productTemp = xmlDoc.getElementsByTagproductName("ProductCode");
-                    productName = xmlDoc.getElementsByTagproductName("ProductName");
-                    productName = xmlDoc["Product"]["ProductName"];
-
-                     for(var i=0; i < productName.length; i++){ //productName.length
-                        //txtTemp = productTemp[i].childNodes[0].nodeValue;
-                        txtPName = productName[i].childNodes[0].nodeValue;
-                        let html = "<li>"+txtPName+"</li>";//+"<li>"+txtTemp+"</li>";
-                        $("#productList").append(html);
-                    } */
-                }
+                
             });
         });
     </script>
