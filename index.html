@@ -5,8 +5,11 @@
     <meta charset="UTF-8">
     <meta productName="viewport" content="width=device-width, initial-scale=1.0">
     <title>테스트</title>
+    <!-- <link rel="shortcut icon" href="#"> -->
+
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script type="text/javascript">
+
         const acaoUrl = "https://cors-anywhere.herokuapp.com/";
         const baseUrl = "http://openapi.11st.co.kr/openapi/OpenApiService.tmall";
         const apiKey = "d31cb5254083f025e9231e22960e7e14";
@@ -29,14 +32,17 @@
                         $(xml).find("Product").each(function () {
                             let producUrl = $(this).find("DetailPageUrl").text();
                             let productName = $(this).find("ProductName").text();
-                            let productImg =  $(this).find("ProductImage").text();
+                            let productImg = $(this).find("ProductImage").text();
                             let productPrice = $(this).find("ProductPrice").text();
+                            let productSeller = $(this).find("Seller").text();
                             let productRating = $(this).find("Rating").text();
-                            html += "<li><div onclick=location.href='" + producUrl + "'>"
-                                + "<img src="+productImg+" alt='상품 이미지'>"
+                            html += "<li><div>" // onclick=location.href='" + producUrl + "'
+                                + "<img src=" + productImg + " alt='상품 이미지'>"
                                 + "<h3>" + productName + "</h3>"
                                 + "<p>" + productPrice
+                                + "<p>" + productSeller
                                 + "<p>" + productRating
+                                + "<input type='button' value='상세설명' onClick='location.href=`" + +producUrl + "`" + "'/>"
                                 + "</div></li>";
                             $("#productList").html(html);
                         });
@@ -45,6 +51,7 @@
             });
         });
     </script>
+    <!-- <script src="products.js"></script> -->
 </head>
 
 <body>
