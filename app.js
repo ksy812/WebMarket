@@ -1,6 +1,3 @@
-// const apiKey = "d31cb5254083f025e9231e22960e7e14";
-// var searchKeyword = "xnote";
-
 var express = require("express"),
     http = require("http"),
     cors = require("cors"),
@@ -15,6 +12,9 @@ var express = require("express"),
     iconv = require("iconv-lite");
 const { fstat } = require("fs");
 
+var products = require("./products");
+var productInfo = require("./productInfo");
+
 // const { JSDOM } = jsdom;
 // const { window } = new JSDOM();
 // const { document } = (new JSDOM("<!DOCTYPE html>index")).window;
@@ -25,16 +25,17 @@ const { fstat } = require("fs");
 const router = express.Router();
 const app = express();
 app.set("port", process.env.PORT || 3000);
-// app.route("/ajax");
+app.route("/ajax");
 app.use(cors());
 app.use("/", router);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({extended: false}));
 app.use(static(path.join(__dirname, 'public')));
-// app.use("/node_modules", express.static(path.join(__dirname, "/node_modules")));
+app.use("/node_modules", express.static(path.join(__dirname, "/node_modules")));
 
+
+app.use("/products", products);
+app.use("/productInfo", productInfo);
 
 
 // router.route('/products').get(function (req, res) {
@@ -42,7 +43,6 @@ app.use(static(path.join(__dirname, 'public')));
 //     //searchKeyword = req.;
 //     //searchKeyword = req.body.searchKeyword;
 //     //console.log(searchKeyword);
-
 //     res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
 //     res.write( "<h1>/products 내용</h1>");
 // 	res.write("<p>왜 작동을 안할까??");
