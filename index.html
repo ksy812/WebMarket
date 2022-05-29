@@ -5,13 +5,11 @@
     <meta charset="UTF-8">
     <meta productName="viewport" content="width=device-width, initial-scale=1.0">
     <title>테스트</title>
-    <!-- <link rel="shortcut icon" href="#"> -->
-    <script src="./products.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             console.log("ready");
-            $("#btnSearch").on("click", function () {
+            $('#btnSearch').click(function(){
                 onClickSearch();
             });
         });
@@ -19,12 +17,14 @@
 </head>
 
 <body>
-    <h1>Test HTML code</h1>
-    <form method="post"> <!--action="/products"-->
+    <h1>상품 검색</h1>
+    <form method="post" action="/products">
+        <!--action="/products"-->
         <input type="text" id="searchKeyword" />
         <input type="button" id="btnSearch" value="검색" />
     </form>
     <div id="productList"></div>
+    <p>>></p>
 </body>
-
+<script src="products.js"></script>
 </html>

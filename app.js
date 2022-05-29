@@ -7,13 +7,11 @@ var express = require("express"),
     bodyParser = require("body-parser"), //생략 가능
     static = require('serve-static'),
     jsdom = require('jsdom'),
-    //$ = require("jquery"), //(require("jsdom").jsdom().parentWindow),
+    $ = require("jquery"), //(require("jsdom").jsdom().parentWindow),
     request = require("request");
-    //iconv = require("iconv-lite");
-//const { fstat } = require("fs");
 
-var products = require("./products");
-var productInfo = require("./productInfo");
+// var products = require("./products");
+// var productInfo = require("./productInfo");
 
 // const { JSDOM } = jsdom;
 // const { window } = new JSDOM();
@@ -33,23 +31,17 @@ app.use(express.json());
 app.use(static(path.join(__dirname, 'public')));
 app.use("/node_modules", express.static(path.join(__dirname, "/node_modules")));
 
-
-app.use("/products", products);
-app.use("/productInfo", productInfo);
+// app.use("/products", products);
+// app.use("/productInfo", productInfo);
 
 app.get("/", function(req, res){
     res.sendFile(__dirname+'/index.html');
 })
 
-// router.route('/products').get(function (req, res) {
-//     console.log('/products 호출됨.');
-//     //searchKeyword = req.;
-//     //searchKeyword = req.body.searchKeyword;
-//     //console.log(searchKeyword);
-//     res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-//     res.write( "<h1>/products 내용</h1>");
-// 	res.write("<p>왜 작동을 안할까??");
-// });
+router.route('/products').get(function (req, res) {
+    console.log('/products 호출됨.');
+    products.onClickSearch();
+});
 
 http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
