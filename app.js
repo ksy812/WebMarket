@@ -2,15 +2,15 @@ var express = require("express"),
     http = require("http"),
     cors = require("cors"),
     path = require("path"),
-    XMLHttpRequest  = require("xhr2"),
-    fs = require("fs"),
+    //XMLHttpRequest  = require("xhr2"),
+    //fs = require("fs"),
     bodyParser = require("body-parser"), //생략 가능
     static = require('serve-static'),
     jsdom = require('jsdom'),
     //$ = require("jquery"), //(require("jsdom").jsdom().parentWindow),
-    request = require("request"),
-    iconv = require("iconv-lite");
-const { fstat } = require("fs");
+    request = require("request");
+    //iconv = require("iconv-lite");
+//const { fstat } = require("fs");
 
 var products = require("./products");
 var productInfo = require("./productInfo");
@@ -37,6 +37,9 @@ app.use("/node_modules", express.static(path.join(__dirname, "/node_modules")));
 app.use("/products", products);
 app.use("/productInfo", productInfo);
 
+app.get("/", function(req, res){
+    res.sendFile(__dirname+'/index.html');
+})
 
 // router.route('/products').get(function (req, res) {
 //     console.log('/products 호출됨.');
