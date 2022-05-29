@@ -2,8 +2,6 @@
 // var router = express.Router();
 // module.exports = router;
 
-// router.get("/:id", function(req, res){
-// });
 
 const acaoUrl = "https://cors-anywhere.herokuapp.com/";
 const baseUrl = "http://openapi.11st.co.kr/openapi/OpenApiService.tmall";
@@ -20,7 +18,7 @@ function onClickSearch(){
     url = acaoUrl + baseUrl
         + "?key=" + apiKey
         + "&apiCode=ProductSearch&keyword=" + searchKeyword
-        + "&pageSize=5";
+        + "&pageSize=8";
     let html = "";
 
     $.ajax({
@@ -30,30 +28,40 @@ function onClickSearch(){
         success: function (xml) {
             $(xml).find("Product").each(function () {
                 let options={
-                    ProductCode: $(this).find("ProductCode").text(),
-                    producUrl: $(this).find("DetailPageUrl").text(),
+                    productCode: $(this).find("ProductCode").text(),
+                    detailPageUrl: $(this).find("DetailPageUrl").text(),
                     productName: $(this).find("ProductName").text(),
                     productImg:  $(this).find("ProductImage").text(),
                     productPrice: $(this).find("ProductPrice").text(),
-                    productSeller: $(this).find("Seller").text(),
-                    productRating: $(this).find("Rating").text()
+                    seller: $(this).find("Seller").text(),
+                    buySatisfy: $(this).find("BuySatisfy").text()
+                    //rating: $(this).find("Rating").text(),
+                    //reviewCount: $(this).find("ReviewCount").text()
                 }
                 body.push(options);
             });
-
+            html += "<div class='row' align='center'>";
+            
             body.forEach(function(item){
-                console.log(item);
-                html += "<li><div>"
-                //html += "<li><div>" // onclick=location.href='" + producUrl + "'
-                    + "<h3>"+ item["productName"] + "</h3>"
-                    + "<img src="+item["productImg"]+" alt='상품 이미지'>"
-                    + "<p>가격:" + item["productPrice"]
-                    + "<p>판매자 정보:" + item["productSeller"]
-                    + "<p>평점:" + item["productRating"]
-                    + "<br><input type='button' value='상세설명' onClick='location.href=`"+ item["producUrl"]+"`" +"'/>"
-                    + "</div></li>";
-                $("#productList").html(html);
-            })
+                //console.log(item);
+                url = acaoUrl + baseUrl
+                + "?key=" + apiKey
+                + "&apiCode=ProductSearch&productCode="+item["productCode"];
+                console.log(url);
+
+                html += "<div class='col-md-4'>"
+                    + "<p><strong>"+ item["productName"] + "</strong>"
+                    + "<br><img src="+item["productImg"]+" alt='상품 이미지'>"
+                    + "<p>" + item["productPrice"] +"원"
+                    + "<p>판매자 정보:" + item["seller"]
+                    + "<p>평점:" + item["buySatisfy"]
+                    + "<br>"
+                    +"<input type='button' value='상세설명' class='btn btn-secondary btn-sm' onClick='location.href=`"+ +"`" +"'/>"
+                    + "</div>";
+               
+            });
+            html +="</div>"; //<hr></div>
+            $("#productList").html(html);
         }
     });
 }

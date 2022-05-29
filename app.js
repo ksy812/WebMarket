@@ -6,8 +6,8 @@ var express = require("express"),
     //fs = require("fs"),
     bodyParser = require("body-parser"), //생략 가능
     static = require('serve-static'),
-    jsdom = require('jsdom'),
-    $ = require("jquery"), //(require("jsdom").jsdom().parentWindow),
+    // jsdom = require('jsdom'),
+    // $ = require("jquery"), //(require("jsdom").jsdom().parentWindow),
     request = require("request");
 
 // var products = require("./products");
@@ -38,11 +38,15 @@ app.get("/", function(req, res){
     res.sendFile(__dirname+'/index.html');
 })
 
-router.route('/products').get(function (req, res) {
-    console.log('/products 호출됨.');
-    products.onClickSearch();
-});
+// router.route('/products').get(function (req, res) {
+//     console.log('/products 호출됨.');
+//     products.onClickSearch();
+// });
 
+router.route('/product/:productCode').get(function (req, res) {
+    console.log('/product/:productCode 호출됨.');
+
+});
 http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
 });
