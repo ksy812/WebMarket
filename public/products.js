@@ -18,13 +18,12 @@ let body = [];
 
 function setDetailUrl(productCode){
     let url = "/products/"+productCode;
-
+/* 
     $.ajax({
         method: "GET",
         datatype: "xml",
-        url: url,
-        data
-    });
+        url: url
+    }); */
 
     return url;
 }
@@ -61,11 +60,12 @@ function onClickSearch(){
             html += "<div class='row' align='center'>";
             
             body.forEach(function(item){
-                //console.log(item);
                 url = acaoUrl + baseUrl
                 + "?key=" + apiKey
                 + "&apiCode=ProductSearch&productCode="+item["productCode"];
-                console.log(url);
+                //console.log(url);
+                //console.log(item["detailPageUrl"]);
+                //console.log("js:"+item["productCode"]);
 
                 html += "<div class='col-md-4'>"
                     + "<p><strong>"+ item["productName"] + "</strong>"
@@ -74,8 +74,10 @@ function onClickSearch(){
                     + "<p>판매자 정보:" + item["seller"]
                     + "<p>평점:" + item["buySatisfy"]
                     + "<br>"
-                    +"<input type='button' value='상세설명' class='btn btn-secondary btn-sm' onClick='location.href=`"+
-                         +"`" + setDetailUrl(item["productCode"]) +"'/>"
+                    +"<input type='button' value='상세설명' class='btn btn-secondary btn-sm' onClick='location.href=`products/"+
+                        item["productCode"] +"`'/>"
+                    // +"<input type='button' value='상세설명' class='btn btn-secondary btn-sm' onClick='location.href=`products/"+
+                    // + item["detailPageUrl"] +"`'/>"
                     + "</div>";
                
             });

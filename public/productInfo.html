@@ -7,12 +7,8 @@
     <title>상품 상세정보</title>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-    <!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript">
-
-    </script>
 </head>
 
 <body>
@@ -21,11 +17,21 @@
             <h1 class="display-3">상품 정보</h1>
         </div>
     </div>
+
     <div class="container">
-        <div class="row">
-        </div>
-    </div>
+		<div class="row">
+			<div class="col-md-5">
+				<img id="productImg" alt="상품 이미지" style="width: 100%">
+			</div>
+			<div class="col-md-6">
+				<h3 id="productName">제품 이름</h3>
+				<p id="productCode"> <b>제품 번호</b> : <span class="badge badge-danger"></span>
+				<h4 id="productPrice">원</h4>
+			</div>
+		</div>
+		<hr>
+	</div>
+
 </body>
 <script src="productInfo.js"></script>
-
 </html>

@@ -13,13 +13,6 @@ var express = require("express"),
 // var products = require("./products");
 // var productInfo = require("./productInfo");
 
-// const { JSDOM } = jsdom;
-// const { window } = new JSDOM();
-// const { document } = (new JSDOM("<!DOCTYPE html>index")).window;
-// global.document = document;
-// const $ = jQuery = require('jquery')(window);
-
-
 const router = express.Router();
 const app = express();
 app.set("port", process.env.PORT || 3000);
@@ -35,19 +28,31 @@ app.use("/node_modules", express.static(path.join(__dirname, "/node_modules")));
 // app.use("/productInfo", productInfo);
 
 app.get("/", function(req, res){
-    res.sendFile(__dirname+'/index.html');
+    res.render("index", {title:"express"});
+    //res.sendFile(__dirname+'/index.html');
 })
 
-router.route('/products/:productCode').get(function (req, res) {
+//**********/
+router.route("/products/:productCode").get(function (req, res) {
     console.log('/products/:productCode 호출됨.');
-    //products.onClickSearch();
+    let productCode = req.params.productCode;
+    const acaoUrl = "https://cors-anywhere.herokuapp.com/";
+    const baseUrl = "http://openapi.11st.co.kr/openapi/OpenApiService.tmall";
+    const apiKey = "d31cb5254083f025e9231e22960e7e14";
+    let url= acaoUrl + baseUrl
+    + "?key=" + apiKey
+    + "&apiCode=ProductSearch&productCode" + productCode;
+    console.log("node:"+productCode);
+    
+    res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+    res.write('<p>productCode</p>');
+    res.end();
+    //res.render("/products/"+productCode);
 });
 
-
-
-// router.get('/openapi').get(function (req, res) {
-//     console.log('/openapi 호출됨.');
-// });
+router.route("/products").get(function (req, res) {
+    console.log('/products 호출됨.');
+});
 
 http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
