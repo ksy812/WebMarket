@@ -1,6 +1,9 @@
-// var express = require("express");
-// var router = express.Router();
-// module.exports = router;
+const acaoUrl = "https://cors-anywhere.herokuapp.com/";
+const baseUrl = "http://openapi.11st.co.kr/openapi/OpenApiService.tmall";
+const apiKey = "d31cb5254083f025e9231e22960e7e14";
+let url;
+let searchKeyword = "";
+let body = [];
 
 $(document).ready(function () {
     console.log("ready");
@@ -9,23 +12,8 @@ $(document).ready(function () {
     });
 });
 
-const acaoUrl = "https://cors-anywhere.herokuapp.com/";
-const baseUrl = "http://openapi.11st.co.kr/openapi/OpenApiService.tmall";
-const apiKey = "d31cb5254083f025e9231e22960e7e14";
-let url;
-let searchKeyword = "";
-let body = [];
-
 function setDetailUrl(productCode){
-    let url = "/products/"+productCode;
-/* 
-    $.ajax({
-        method: "GET",
-        datatype: "xml",
-        url: url
-    }); */
-
-    return url;
+    return "/products/"+productCode;
 }
 
 function onClickSearch(){

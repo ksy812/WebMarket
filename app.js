@@ -33,7 +33,6 @@ app.get("/", function(req, res){
     //res.sendFile(__dirname+'/index.html');
 })
 
-//**********/
 router.route("/products/:productCode").get(function (req, res) {
     console.log('/products/:productCode 호출됨.');
     let productCode = req.params.productCode;
@@ -43,16 +42,19 @@ router.route("/products/:productCode").get(function (req, res) {
     let url= acaoUrl + baseUrl
     + "?key=" + apiKey
     + "&apiCode=ProductSearch&productCode" + productCode;
-    console.log("node:"+productCode);
     
-    res.writeHead("200", {"Content-Type":"text/html;"});
-    fs.createReadStream("./public/productInfo.html").pipe(res);
+    //res.writeHead("200", {"Content-Type":"text/html;"});
+    console.log("---");
+    
+    //res.send({productCode: productCode}); //******** */
+    res.render("productInfo", {title:"express"});
+    //fs.createReadStream("./public/productInfo.html").pipe(res);
 });
 
 //실행 될 일 Xx
-router.route("/products").get(function (req, res) {
-    console.log('/products 호출됨.');
-});
+// router.route("/products").get(function (req, res) {
+//     console.log('/products 호출됨.');
+// });
 
 
 let errorHandler = expressErrorHandler({
