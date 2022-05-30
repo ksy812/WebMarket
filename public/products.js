@@ -76,8 +76,6 @@ function onClickSearch(){
                     + "<br>"
                     +"<input type='button' value='상세설명' class='btn btn-secondary btn-sm' onClick='location.href=`products/"+
                         item["productCode"] +"`'/>"
-                    // +"<input type='button' value='상세설명' class='btn btn-secondary btn-sm' onClick='location.href=`products/"+
-                    // + item["detailPageUrl"] +"`'/>"
                     + "</div>";
                
             });

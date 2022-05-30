@@ -4,6 +4,13 @@ const apiKey = "d31cb5254083f025e9231e22960e7e14";
 let url;
 let productCode = "1513916262";
 
+
+
+$(document).ready(function () {
+    console.log("productInfo ready");
+    setProduct();
+});
+
 function setProduct() {
     url = acaoUrl + baseUrl
         + "?key=" + apiKey
