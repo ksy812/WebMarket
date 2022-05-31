@@ -42,38 +42,37 @@ app.get("/", function (req, res) {
 
 router.route("/products").post(async function (req, res) {
     console.log('/products 호출됨.');
-    
-    // let id = req.body.id || req.query.id;
     let keyword = req.body.keyword || req.query.keyword;
 
     let url = baseUrl
         + "?key=" + apiKey
-        + "&apiCode=ProductSearch&keyword=" + keyword;
-    console.log(keyword);
+        + "&apiCode=ProductSearch&keyword=" + keyword
+        + "&pageSize=8";
 
-    
 
     const data = await axios({
         url,
         method: "GET",
         responseType: "arraybuffer"
-    })
+    });
+
     const xml = iconv.decode(data.data, "euc-kr");
     const productJSON = JSON.parse(convert.xml2json(xml, { compact: true, spaces: 4 }));
-    const products = productJSON.ProductSearchResponse.Products;
-    // console.log(result["ProductSearchResponse"]);
-    // console.log("products 생성 완료");
-
-    // res.render("products", products);
-    res.writeHead("200", {"Content-Type":"text/html;"});
-    res.write("<h1>TEST</h1>");
-    res.end();
-
+    const products = productJSON.ProductSearchResponse.Products["Product"][0];
+    // console.log(xml);
+    console.log(products);
+    for(idx in products){
+        //console.log(products[idx]["ProductName"]["_cdata"] +"\n");
+    }
+    // console.log(products["TotalCount"]);
+    // console.log(products["Product"]);
+    console.log(products["ProductCode"]._text);
+    res.render("products", products);
 });
 
 router.route("/products/:productCode").get(async function (req, res) {
     console.log('/products/:productCode 호출됨.');
-    let productCode = req.body.productCode || req.query.productCode;//req.params.productCode;
+    let productCode = req.body.productCode || req.query.productCode;
     let url = baseUrl
         + "?key=" + apiKey
         + "&apiCode=ProductInfo&productCode=" + productCode;
@@ -85,23 +84,21 @@ router.route("/products/:productCode").get(async function (req, res) {
     })
     const xml = iconv.decode(data.data, "euc-kr");
     const productJSON = JSON.parse(convert.xml2json(xml, { compact: true, spaces: 4 }));
-    const product = productJSON.ProductInfoResponse.Product;
-    //console.log(result["ProductInfoResponse"]);
-    //res.writeHead("200", {"Content-Type":"text/html;"});
-    console.log("product 생성 완료");
+    const product = productJSON.ProductInfoResponse;//.Product;
+    // console.log("product 생성 완료");
 
     res.render("productInfo", product);
 });
 
 //error page 설정
-/* let errorHandler = expressErrorHandler({
+let errorHandler = expressErrorHandler({
     static: {
-        '404': './public/views/404.html'
+        '404': './views/404.html'
     }
 });
 
 app.use(expressErrorHandler.httpError(404));
-app.use(errorHandler); */
+app.use(errorHandler);
 
 http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
