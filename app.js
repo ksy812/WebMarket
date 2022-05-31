@@ -1,4 +1,4 @@
-var express = require("express"),
+const express = require("express"),
     http = require("http"),
     cors = require("cors"),
     path = require("path"),
@@ -17,9 +17,6 @@ const app = express();
 //const acaoUrl = "https://cors-anywhere.herokuapp.com/";
 const baseUrl = "http://openapi.11st.co.kr/openapi/OpenApiService.tmall";
 const apiKey = "d31cb5254083f025e9231e22960e7e14";
-
-// var products = require("./products");
-// var productInfo = require("./productInfo");
 
 app.set("port", process.env.PORT || 3000);
 
@@ -58,16 +55,21 @@ router.route("/products").post(async function (req, res) {
 
     const xml = iconv.decode(data.data, "euc-kr");
     const productJSON = JSON.parse(convert.xml2json(xml, { compact: true, spaces: 4 }));
-    const products = productJSON.ProductSearchResponse.Products["Product"][0];
+    const products = productJSON.ProductSearchResponse.Products["Product"];
     // console.log(xml);
     console.log(products);
+
+    let body = [];
+
     for(idx in products){
         //console.log(products[idx]["ProductName"]["_cdata"] +"\n");
+
+        body.push(options);
     }
     // console.log(products["TotalCount"]);
     // console.log(products["Product"]);
     console.log(products["ProductCode"]._text);
-    res.render("products", products);
+    res.render("products", body);
 });
 
 router.route("/products/:productCode").get(async function (req, res) {
