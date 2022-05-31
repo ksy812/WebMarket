@@ -1,4 +1,4 @@
-const acaoUrl = ""
+const acaoUrl = "https://cors-anywhere.herokuapp.com/";
 const baseUrl = "http://openapi.11st.co.kr/openapi/OpenApiService.tmall";
 const apiKey = "d31cb5254083f025e9231e22960e7e14";
 let url;
