@@ -23,8 +23,11 @@ const apiKey = "d31cb5254083f025e9231e22960e7e14";
 // var productInfo = require("./productInfo");
 
 app.set("port", process.env.PORT || 3000);
-app.set('views', path.join(__dirname, '/views'));
+
 app.set('view engine', 'html');
+app.set('views', path.join(__dirname, '/views'));
+app.engine('html', require('ejs').renderFile);
+
 
 app.use(cors());
 app.use("/", router);
@@ -32,11 +35,43 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(static(path.join(__dirname, 'public')));
 
-app.engine('html', require('ejs').renderFile);
 
 app.get("/", function (req, res) {
     res.render("index");
 })
+
+router.route("/products").post(async function (req, res) {
+    console.log('/products 호출됨.');
+    let keyword = req.body.searchKeyword;
+    //req.query.id;
+    //req.body.searchKeyword ;
+    //req.params.searchKeyword;
+
+    let url = baseUrl
+        + "?key=" + apiKey
+        + "&apiCode=ProductSearch&keyword=" + keyword;
+    console.log(url);
+    
+    // console.log(req.params.searchKeyword);
+    // console.log(req.query.query);
+
+    // const data = await axios({
+    //     url,
+    //     method: "GET",
+    //     responseType: "arraybuffer"
+    // })
+    // const xml = iconv.decode(data.data, "euc-kr");
+    // const productJSON = JSON.parse(convert.xml2json(xml, { compact: true, spaces: 4 }));
+    // const products = productJSON.ProductSearchResponse.Products;
+    // console.log(result["ProductSearchResponse"]);
+    // console.log("products 생성 완료");
+
+    // res.render("products", products);
+    res.writeHead("200", {"Content-Type":"text/html;"});
+    res.write("<h1>TEST</h1>");
+    res.end();
+
+});
 
 router.route("/products/:productCode").get(async function (req, res) {
     console.log('/products/:productCode 호출됨.');
@@ -46,7 +81,9 @@ router.route("/products/:productCode").get(async function (req, res) {
         + "&apiCode=ProductInfo&productCode=" + productCode;
 
     const data = await axios({
-        url, method: "GET", responseType: 'arraybuffer'
+        url,
+        method: "GET",
+        responseType: "arraybuffer"
     })
     const xml = iconv.decode(data.data, "euc-kr");
     const productJSON = JSON.parse(convert.xml2json(xml, { compact: true, spaces: 4 }));
@@ -56,13 +93,7 @@ router.route("/products/:productCode").get(async function (req, res) {
     console.log("product 생성 완료");
 
     res.render("productInfo", product);
-
 });
-
-//실행 될 일 Xx
-/* router.route("/products").get(function (req, res) {
-    console.log('/products 호출됨.');
-}); */
 
 //error page 설정
 /* let errorHandler = expressErrorHandler({
