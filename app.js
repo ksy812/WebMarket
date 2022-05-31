@@ -12,7 +12,6 @@ var express = require("express"),
     convert = require('xml-js'),
     { default: axios } = require("axios");
 
-const router = express.Router();
 const app = express();
 
 //const acaoUrl = "https://cors-anywhere.herokuapp.com/";
@@ -30,11 +29,12 @@ app.engine('html', require('ejs').renderFile);
 
 
 app.use(cors());
-app.use("/", router);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(static(path.join(__dirname, 'public')));
 
+const router = express.Router();
+app.use("/", router);
 
 app.get("/", function (req, res) {
     res.render("index");
@@ -42,27 +42,25 @@ app.get("/", function (req, res) {
 
 router.route("/products").post(async function (req, res) {
     console.log('/products 호출됨.');
-    let keyword = req.body.searchKeyword;
-    //req.query.id;
-    //req.body.searchKeyword ;
-    //req.params.searchKeyword;
+    
+    // let id = req.body.id || req.query.id;
+    let keyword = req.body.keyword || req.query.keyword;
 
     let url = baseUrl
         + "?key=" + apiKey
         + "&apiCode=ProductSearch&keyword=" + keyword;
-    console.log(url);
-    
-    // console.log(req.params.searchKeyword);
-    // console.log(req.query.query);
+    console.log(keyword);
 
-    // const data = await axios({
-    //     url,
-    //     method: "GET",
-    //     responseType: "arraybuffer"
-    // })
-    // const xml = iconv.decode(data.data, "euc-kr");
-    // const productJSON = JSON.parse(convert.xml2json(xml, { compact: true, spaces: 4 }));
-    // const products = productJSON.ProductSearchResponse.Products;
+    
+
+    const data = await axios({
+        url,
+        method: "GET",
+        responseType: "arraybuffer"
+    })
+    const xml = iconv.decode(data.data, "euc-kr");
+    const productJSON = JSON.parse(convert.xml2json(xml, { compact: true, spaces: 4 }));
+    const products = productJSON.ProductSearchResponse.Products;
     // console.log(result["ProductSearchResponse"]);
     // console.log("products 생성 완료");
 
@@ -75,7 +73,7 @@ router.route("/products").post(async function (req, res) {
 
 router.route("/products/:productCode").get(async function (req, res) {
     console.log('/products/:productCode 호출됨.');
-    let productCode = req.params.productCode;
+    let productCode = req.body.productCode || req.query.productCode;//req.params.productCode;
     let url = baseUrl
         + "?key=" + apiKey
         + "&apiCode=ProductInfo&productCode=" + productCode;
