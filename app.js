@@ -60,16 +60,48 @@ router.route("/products").post(async function (req, res) {
     console.log(products);
 
     let body = [];
-
-    for(idx in products){
+    let html = "";
+    for (idx in products) {
         //console.log(products[idx]["ProductName"]["_cdata"] +"\n");
-
+        let options = {
+            productCode: products[idx]["ProductCode"]._text,
+            detailPageUrl: products[idx]["DetailPageUrl"]._cdata,
+            productName: products[idx]["ProductName"]._cdata,
+            productImg: products[idx]["ProductImage"]._cdata,
+            productPrice: products[idx]["ProductPrice"]._text,
+            seller: products[idx]["Seller"]._text,
+            buySatisfy: products[idx]["BuySatisfy"]._text,
+            rating: products[idx]["Rating"]._text,
+            reviewCount: products[idx]["ReviewCount"]._text
+        };
+        console.log(options);
         body.push(options);
     }
+
+    html += "<div class='row' align='center'>";
+    body.forEach(function (item) {
+        // console.log(item["productName"]);
+
+        html += "<div class='col-md-4'>"
+            + "<p><strong>" + item["productName"] + "</strong>"
+            + "<br><img src=" + item["productImg"] + " alt='상품 이미지'>"
+            + "<p>" + item["productPrice"] + "원"
+            + "<p>판매자 정보:" + item["seller"]
+            //+ "<p>평점:" + item["rating"] / item["reviewCount"]
+            + "<p>평점:" + item["buySatisfy"]
+            + "<br>"
+            + "<input type='button' value='상세설명' class='btn btn-secondary btn-sm' onClick='location.href=`products/" +
+            item["productCode"] + "`'/>"
+            + "</div>"
+    });
+    html += "</div>";
     // console.log(products["TotalCount"]);
     // console.log(products["Product"]);
-    console.log(products["ProductCode"]._text);
-    res.render("products", body);
+    // console.log(products["ProductCode"]._text);
+    // res.render("products", body);
+    res.writeHead('200', { 'Content-Type': 'text/html;charset=utf8' });
+    res.write(html);
+    res.end();
 });
 
 router.route("/products/:productCode").get(async function (req, res) {
