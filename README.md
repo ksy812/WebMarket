@@ -4,10 +4,13 @@
 <br>
 배포 URL https://webmarket11api.herokuapp.com/
 
-<h1>수정이 필요한 에러들</h1>
+<br>
+<h2>수정이 필요한 에러들</h2>
 CORS ERROR 임시 해결 https://cors-anywhere.herokuapp.com/corsdemo
 
+<br><br>
 <h2>실행 이미지</h2>
+
 - 아무 입력 없이 검색 버튼을 누를 경우
 ![image](https://user-images.githubusercontent.com/77036230/171769858-8b73643c-46c5-4814-9925-87bebfe7af51.png)
 
